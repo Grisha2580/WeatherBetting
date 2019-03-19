@@ -3,21 +3,21 @@ pragma solidity ^0.4.25;
 
 contract WeatherOracle {
   address public oracleAddress;
-  string temperature;
+  uint temperature;
 
   constructor (address _oracleAddress) public {
     oracleAddress = _oracleAddress;
   }
 
-  event WeatherUpdate (string temperature);
+  event WeatherUpdate (uint temperature);
 
-  function updateWeather (string _temperature) public {
+  function updateWeather (uint _temperature) public {
     require(msg.sender == oracleAddress);
     temperature = _temperature;
     emit WeatherUpdate (temperature);
   }
 
-  function getTemperature() public returns (string temperature) {
+  function getTemperature() public returns (uint temperature) {
     return temperature;
   }
 }
