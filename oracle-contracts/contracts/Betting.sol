@@ -14,14 +14,22 @@ contract Betting {
 
     uint constant minimumBet = 0.5 ether;
 
-    mapping(uint => Bet[]) currentBets;
+    mapping(uint => Bet[]) private currentBets;
 
-    function makeBet(uint16 _year, uint8 _month, uint8 _day, uint _predicted_value) public {
+    function makeBet(uint16 _year, uint8 _month, uint8 _day, uint _predicted_value) public payable {
         // This checks that the bet cannot be placed for the current day
         // require(DateLib.DateTime(_year, _month, _day, 0, 0, 0, 0, 0).toUnixTimestamp()) - now > 1 days);
+        require(msg.value >= minimumBet);
         Bet memory bet = Bet(msg.sender, _predicted_value);
         currentBets[DateLib.DateTime(_year, _month, _day, 0, 0, 0, 0, 0).toUnixTimestamp()].push(bet);
+    }
 
+    function getNumBets(uint16 _year, uint8 _month, uint8 _day) public returns (uint numBets) {
+        return currentBets[DateLib.DateTime(_year, _month, _day, 0, 0, 0, 0, 0).toUnixTimestamp()].length;
+    }
+
+    function payOut() public {
 
     }
+
 }
