@@ -25,7 +25,7 @@ contract Betting {
 
     function makeBet(uint unixTime, uint _predictedValue) public payable {
         // This checks that the bet cannot be placed for the current day
-        require(unixTime - now > 1 days
+        require(unixTime > now && unixTime - now > 1 days
         , "The time provided has already passed for betting on");
         require(msg.value == minimumBet, "The ether sent must equal the minimum bet amount");
 
@@ -95,5 +95,7 @@ contract Betting {
             return uint(difference);
         }
     }
+
+
 
 }
