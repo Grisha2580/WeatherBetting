@@ -42,7 +42,7 @@ contract Betting {
 
     }
 
-    function getNumBets(uint16 _year, uint8 _month, uint8 _day) public returns (uint numBets) {
+    function getNumBets(uint16 _year, uint8 _month, uint8 _day) public view returns (uint numBets) {
         return currentBets[DateLib.DateTime(_year, _month, _day, 0, 0, 0, 0, 0).toUnixTimestamp()].length;
     }
 
