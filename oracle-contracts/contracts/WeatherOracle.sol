@@ -3,7 +3,7 @@ pragma solidity ^0.4.25;
 
 contract WeatherOracle {
   address public oracleAddress;
-  uint public temperature;
+  uint temperature;
 
   constructor (address _oracleAddress) public {
     oracleAddress = _oracleAddress;
