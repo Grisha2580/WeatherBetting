@@ -1,12 +1,8 @@
 pragma solidity^0.4.25;
 
-import "./Ownable.sol";
-import "./DateLib.sol";
 import "./WeatherOracle.sol";
 
 contract Betting {
-
-    using DateLib for DateLib.DateTime;
 
     struct Bet {
         address addr;
@@ -27,23 +23,24 @@ contract Betting {
         oracleAddress = _oracleAddress;
     }
 
-    function makeBet(uint16 _year, uint8 _month, uint8 _day, uint _predictedValue) public payable {
+    function makeBet(uint unixTime, uint _predictedValue) public payable {
         // This checks that the bet cannot be placed for the current day
-        // require(DateLib.DateTime(_year, _month, _day, 0, 0, 0, 0, 0).toUnixTimestamp()) - now > 1 days);
-        require(msg.value == minimumBet);
+        require(unixTime - now > 1 days
+        , "The time provided has already passed for betting on");
+        require(msg.value == minimumBet, "The ether sent must equal the minimum bet amount");
 
         // if there are no bets on this day add the day to the list of bets
-        if (currentBets[DateLib.DateTime(_year, _month, _day, 0, 0, 0, 0, 0).toUnixTimestamp()].length == 0) {
-            daysWithBets.push(DateLib.DateTime(_year, _month, _day, 0, 0, 0, 0, 0).toUnixTimestamp());
+        if (currentBets[unixTime].length == 0) {
+            daysWithBets.push(unixTime);
         }
         // Create the bet and push it to the array for the given day
         Bet memory bet = Bet(msg.sender, _predictedValue);
-        currentBets[DateLib.DateTime(_year, _month, _day, 0, 0, 0, 0, 0).toUnixTimestamp()].push(bet);
+        currentBets[unixTime].push(bet);
 
     }
 
-    function getNumBets(uint16 _year, uint8 _month, uint8 _day) public view returns (uint numBets) {
-        return currentBets[DateLib.DateTime(_year, _month, _day, 0, 0, 0, 0, 0).toUnixTimestamp()].length;
+    function getNumBets(uint unixTime) public view returns (uint numBets) {
+        return currentBets[unixTime].length;
     }
 
     // Function is called to see if the date has passed and anyone needs to be payed out
