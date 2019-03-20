@@ -17,7 +17,7 @@ contract WeatherOracle {
     emit WeatherUpdate (temperature);
   }
 
-  function getTemperature() public returns (uint temperature) {
+  function getTemperature() public view returns (uint temperature) {
     return temperature;
   }
 }
