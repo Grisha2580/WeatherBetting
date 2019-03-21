@@ -25,8 +25,8 @@ contract Betting {
 
     function makeBet(uint unixTime, uint _predictedValue) public payable {
         // This checks that the bet cannot be placed for the current day
-        require(unixTime > now && unixTime - now > 1 days
-        , "The time provided has already passed for betting on");
+        // require(unixTime > now && unixTime - now > 1 days
+        // , "The time provided has already passed for betting on");
         require(msg.value == minimumBet, "The ether sent must equal the minimum bet amount");
 
         // if there are no bets on this day add the day to the list of bets
@@ -80,7 +80,8 @@ contract Betting {
         // Pay out the current winners
         uint winnerPayout = minimumBet * bets.length / mostRecentWinners.length;
         for (uint j = 0; j < mostRecentWinners.length; j++) {
-            mostRecentWinners[i].transfer(winnerPayout);
+            address winner = mostRecentWinners[j];
+            winner.transfer(winnerPayout);
         }
     }
 
