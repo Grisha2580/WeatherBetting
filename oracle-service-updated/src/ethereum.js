@@ -1,12 +1,9 @@
 // require("dotenv").config();
 
 require('web3')
-// import HDWalletProvider from "truffle-hdwallet-provider";
-// import Web3 from "web3";
+//import HDWalletProvider from "truffle-hdwallet-provider";
+//import Web3 from "web3";
 
-module.exports = {
-  testing: testing
-}
 
 const web3 = new Web3.providers.HttpProvider('"http://localhost:8545')
 const abi = JSON.parse(process.env.ABI);

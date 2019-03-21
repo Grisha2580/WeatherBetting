@@ -28,7 +28,8 @@ const parseData = (url) => {
     try {
       request(url, { json: true }, (err, res, body) => {
         if (err) { return console.log(err); }
-      resolve(body.consolidated_weather[0].the_temp)
+        console.log(body.consolidated_weather[0])
+      resolve(body.consolidated_weather[0].the_temp);
     });
       // weatherDescription = body.weather[0].description.toString();
       // temperature = body.main.temp.toString();
