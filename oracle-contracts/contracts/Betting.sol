@@ -44,7 +44,7 @@ contract Betting {
     }
 
     // Function is called to see if the date has passed and anyone needs to be payed out
-    function payOut() public {
+    function payOut() public returns (bool) {
         for (uint i = 0; i < daysWithBets.length; i++) {
             if (daysWithBets[i] < now) {
                 distributeMoney(currentBets[daysWithBets[i]]);
@@ -52,9 +52,10 @@ contract Betting {
                 daysWithBets[i] = daysWithBets[daysWithBets.length-1];
                 delete daysWithBets[daysWithBets.length-1];
                 daysWithBets.length--;
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     // This function checks the oracle to see who won and distributes the money accordingly
@@ -81,7 +82,6 @@ contract Betting {
         for (uint j = 0; j < mostRecentWinners.length; j++) {
             mostRecentWinners[i].transfer(winnerPayout);
         }
-
     }
 
 
@@ -95,7 +95,5 @@ contract Betting {
             return uint(difference);
         }
     }
-
-
 
 }
